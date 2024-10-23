@@ -17,7 +17,7 @@ int main() {
     cin >> size;
 
     int k = 0, y = 0;
-    while (k < text.length()) {  issues
+    while (k < text.length()) {  
         for (int x = 0; x < size; x++) {
             if (k < text.length()) {
                 mat[y][x] = text[k++];
@@ -40,7 +40,7 @@ int main() {
     ostringstream oss;
     for (int i = 0; i < size; i++) {
         for (int h = 0; h < y; h++) {
-            if (mat[h][i] != ' ') {   encryption
+            if (mat[h][i] != ' ') {   
                 oss << mat[h][i];
             }
         }
