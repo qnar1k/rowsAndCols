@@ -1,64 +1,64 @@
-#include <iostream>
-#include <sstream>  
-#include <string>
+#include <iostream> 
+#include <string> 
+#include <vector> 
 using namespace std;
+class MatrixCipher {
+private:
+	int rows;
+	int columns;
+	vector<vector<char>> matrix;
 
-int main() {
+public:
+	MatrixCipher(int rowSize, int colSize) : rows(rowSize), columns(colSize), matrix(rowSize, vector<char>(colSize, ' ')) {}
 
-    char mat[50][50] = { ' ' };
-    string text;
+	string encrypt(const string& text) {
+		matrix.resize(rows, vector<char>(columns, ' '));
 
-    cout << "Enter the text" << endl;
-    getline(cin, text);
-    cout << "Source data: " << text << endl;
+		for (int i = 0; i < text.length(); ++i) {
+			matrix[i / columns][i % columns] = text[i];
+		}
 
-    int size;
-    cout << "Enter the table size" << endl;
-    cin >> size;
+		string encrypted;
+		for (int j = 0; j < columns; j++) {
+			for (int i = 0; i < rows; i++) {
+				if (matrix[i][j] != ' ') encrypted += matrix[i][j];
+			}
+		}
+		return encrypted;
+	}
 
-    int k = 0, y = 0;
-    while (k < text.length()) {
-        for (int x = 0; x < size; x++) {
-            if (k < text.length()) {
-                mat[y][x] = text[k++];
-            }
-            else {
-                mat[y][x] = ' ';
-            }
-        }
-        y++;
-    }
+	string decrypt(const string& text) {
 
-    cout << endl;
+		string decrypted;
+		for (int i = 0; i < rows; ++i) {
+			for (int j = 0; j < columns; ++j) {
+				decrypted += matrix[i][j];
+			}
+		}
+		return decrypted;
+	}
 
-    for (int i = 0; i < y; i++) {
-        for (int h = 0; h < size; h++) {
-            cout << mat[i][h] << " ";
-        }
-        cout << endl;
-    }
+	void printMatrix() const {
+		for (const auto& row : matrix) {
+			for (char c : row) {
+				cout << (c == ' ' ? '.' : c) << ' ';
+			}
+			cout << endl;
+		}
+	}
 
-    ostringstream oss;
-    for (int i = 0; i < size; i++) {
-        for (int h = 0; h < y; h++) {
-            if (mat[h][i] != ' ') {
-                oss << mat[h][i];
-            }
-        }
-    }
-    ostringstream oss1;
-    for (int i = 0; i < y; i++) {
-        for (int h = 0; h < size; h++) {
-             oss1 << mat[i][h]; 
-        }
-    }
-
-    string result = oss.str();
-    cout << "Encrypted string: " << endl;
-    cout << result << endl;
-    string result1 = oss1.str();
-    cout << "Decrypted string: " << endl;
-    cout << result1;
-
-    return 0;
-}
+};
+//int main() {
+//    int col, row;
+//    string str;
+//    cout << "Enter the string to be encrypted: " << endl;
+//    getline(cin, str);
+//    cout << "Enter the number of columns: ";
+//    cin >> col;
+//    row = (str.length() + col - 1) / col;
+//    MatrixCipher alg(row, col);
+//    string enc = alg.encrypt(str);
+//    string dec = alg.decrypt(enc);
+//    cout << enc << " " << dec;
+//    return 0;
+//}
